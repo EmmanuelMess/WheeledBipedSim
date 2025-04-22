@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot>
+  <gazebo reference="imu_link">
+    <sensor name='imu_gnss' type='imu'>
+      <topic>/imu</topic>
+      <update_rate>200</update_rate>
+      <always_on>true</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+
+</robot>

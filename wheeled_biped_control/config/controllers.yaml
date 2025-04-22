@@ -1,0 +1,6 @@
+forward_position_controller:
+  ros__parameters:
+    joints:
+      - lower_right_leg_joint
+      - lower_left_leg_joint
+    interface_name: position
