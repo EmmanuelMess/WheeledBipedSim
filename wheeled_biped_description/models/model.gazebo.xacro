@@ -7,8 +7,8 @@
   </gazebo>
 
   <gazebo reference="imu_link">
-    <sensor name='imu_gnss' type='imu'>
-      <topic>/imu</topic>
+    <sensor name='imu_head' type='imu'>
+      <topic>/imu/head</topic>
       <update_rate>200</update_rate>
       <always_on>true</always_on>
       <visualize>true</visualize>
