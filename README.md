@@ -3,6 +3,13 @@
 
 <img src="./images/screenshot.png"/>
 
+### Build
+
+```bash
+docker build . -t wheeled_biped:jazzy
+```
+
+
 ### Run
 
 ```bash
@@ -10,13 +17,7 @@ rocker --x11 \
     --device=/dev/kfd --device=/dev/dri --group-add video \
     --volume ${PWD}:/ros2_ws/src/:rw \
     --name wheeled_biped_docker \
-    ghcr.io/sloretz/ros:jazzy-simulation
-    
-cd /ros2_ws
-
-apt update
-rosdep update
-rosdep install --from-paths src -r -y --ignore-src
+    wheeled_biped:jazzy
 
 colcon build --symlink-install
 source install/setup.bash

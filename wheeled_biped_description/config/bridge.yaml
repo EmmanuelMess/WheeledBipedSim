@@ -4,6 +4,11 @@
   gz_type_name: "gz.msgs.Pose_V"
   lazy: true
   direction: GZ_TO_ROS
+- topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+  lazy: true
+  direction: GZ_TO_ROS
 - topic_name: "/imu"
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "gz.msgs.IMU"

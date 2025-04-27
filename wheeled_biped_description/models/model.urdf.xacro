@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<!-- Revolute-Revolute Manipulator -->
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- Constants for robot dimensions -->
@@ -14,7 +13,7 @@
 
   <xacro:include filename="$(find wheeled_biped_description)/models/inertial_macros.xacro" />
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
-  <xacro:include filename="$(find wheeled_biped_description)/models/model.gazebo" />
+  <xacro:include filename="$(find wheeled_biped_description)/models/model.gazebo.xacro" />
   <!-- Import Rviz colors -->
   <xacro:include filename="$(find wheeled_biped_description)/models/materials.xacro" />
 
