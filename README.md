@@ -24,10 +24,3 @@ source install/setup.bash
 
 ros2 launch wheeled_biped_description simulation.launch.py
 ```
-
-```
-docker exec -it wheeled_biped_docker bash
-source /opt/ros/jazzy/setup.bash
-source /ros2_ws/install/setup.bash
-ros2 launch wheeled_biped_control basic_control.launch.py
-```
