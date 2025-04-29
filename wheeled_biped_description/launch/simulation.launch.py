@@ -63,7 +63,27 @@ def generate_launch_description():
             "controllers.yaml",
         ]
     )
-    
+
+    robot_hips_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "hips_position_controller",
+            "--param-file", robot_controllers,
+        ],
+        output="both",
+    )
+
+    robot_knees_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "knees_position_controller",
+            "--param-file", robot_controllers,
+        ],
+        output="both",
+    )
+
     robot_wheels_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
@@ -76,16 +96,6 @@ def generate_launch_description():
         output="both",
     )
 
-    robot_knees_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "forward_position_controller",
-            "--param-file", robot_controllers,
-        ],
-        output="both",
-    )
-    
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
@@ -105,7 +115,8 @@ def generate_launch_description():
         ),
         robot_state_publisher_node,
         spawn_entity,
-        robot_wheels_controller_spawner,
+        robot_hips_controller_spawner,
         robot_knees_controller_spawner,
+        robot_wheels_controller_spawner,
         joint_state_broadcaster_spawner,
     ])

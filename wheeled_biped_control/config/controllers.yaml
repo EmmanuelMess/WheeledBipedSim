@@ -6,7 +6,16 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-forward_position_controller:
+hips_position_controller:
+  ros__parameters:
+    type: forward_command_controller/ForwardCommandController
+    joints:
+      - upper_left_leg_joint
+      - upper_right_leg_joint
+    interface_name: position
+
+
+knees_position_controller:
   ros__parameters:
     type: forward_command_controller/ForwardCommandController
     joints:
