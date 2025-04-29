@@ -1,7 +1,7 @@
 # Wheeled Biped Sim
 
 
-<img src="./images/screenshot.png"/>
+<img src="./images/v0.2.png"/>
 
 ### Build
 

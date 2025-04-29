@@ -35,11 +35,11 @@ def generate_launch_description():
     robot_state_publisher_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        output="both",
         parameters=[{
             "robot_description": robot_description_config,
             "use_sim_time": True,
         }],
+        output="both",
     )
 
     # Spawn the robot in Gazebo
@@ -64,23 +64,33 @@ def generate_launch_description():
         ]
     )
     
-    robot_controller_spawner = Node(
+    robot_wheels_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=[
             "differential_controller",
-            "--param-file",
-            robot_controllers,
+            "--param-file", robot_controllers,
             "--controller-ros-args",
             "-r /differential_controller/cmd_vel:=/cmd_vel",
         ],
+        output="both",
     )
 
+    robot_knees_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "forward_position_controller",
+            "--param-file", robot_controllers,
+        ],
+        output="both",
+    )
     
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
         arguments=["joint_state_broadcaster"],
+        output="both",
     )
 
     return LaunchDescription([
@@ -95,6 +105,7 @@ def generate_launch_description():
         ),
         robot_state_publisher_node,
         spawn_entity,
-        robot_controller_spawner,
+        robot_wheels_controller_spawner,
+        robot_knees_controller_spawner,
         joint_state_broadcaster_spawner,
     ])
