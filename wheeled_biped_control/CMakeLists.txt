@@ -5,17 +5,28 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(controller_interface  REQUIRED)
+find_package(hardware_interface  REQUIRED)
+find_package(pluginlib  REQUIRED)
+find_package(rclcpp  REQUIRED)
+find_package(rclcpp_lifecycle REQUIRED)
 
-# Install
-install(
-  DIRECTORY launch config
-  DESTINATION share/wheeled_biped_control
+add_library(upright_controller SHARED
+    src/upright_controller.cpp
 )
+target_compile_features(upright_controller PUBLIC cxx_std_17)
+target_include_directories(upright_controller PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include/upright_controller>
+)
+ament_target_dependencies(upright_controller PUBLIC ament_cmake
+    controller_interface
+    hardware_interface
+    pluginlib
+    rclcpp
+    rclcpp_lifecycle)
+pluginlib_export_plugin_description_file(controller_interface upright_controller.xml)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -29,4 +40,23 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+# Install
+install(
+  DIRECTORY launch config
+  DESTINATION share/wheeled_biped_control
+)
+install(TARGETS upright_controller
+    EXPORT export_upright_controller
+    RUNTIME DESTINATION bin
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+)
+
+ament_export_targets(export_upright_controller HAS_LIBRARY_TARGET)
+ament_export_dependencies(ament_cmake
+    controller_interface
+    hardware_interface
+    pluginlib
+    rclcpp
+    rclcpp_lifecycle)
 ament_package()

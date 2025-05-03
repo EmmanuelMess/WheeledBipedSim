@@ -1,0 +1,7 @@
+<library path="upright_controller">
+  <class name="upright_controller/UprightController" type="upright_controller::UprightController" base_class_type="controller_interface::ChainableControllerInterface">
+  <description>
+    Keeps a tall wheeled robot upright.
+  </description>
+  </class>
+</library>

@@ -1,5 +1,3 @@
-import os
-
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, SetEnvironmentVariable, 
                             IncludeLaunchDescription, SetLaunchConfiguration)
