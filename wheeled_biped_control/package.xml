@@ -15,6 +15,7 @@
   <depend>pluginlib</depend>
   <depend>rclcpp</depend>
   <depend>rclcpp_lifecycle</depend>
+  <depend>sensor_msgs</depend>
 
   <test_depend>ament_add_gmock</test_depend>
   <test_depend>controller_manager</test_depend>

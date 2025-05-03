@@ -1,6 +1,8 @@
 #ifndef UPRIGHT_CONTROLLER_HPP
 #define UPRIGHT_CONTROLLER_HPP
 
+#include <sensor_msgs/msg/imu.hpp>
+
 #include "controller_interface/chainable_controller_interface.hpp"
 
 namespace upright_controller {
@@ -35,6 +37,10 @@ public:
 
 	controller_interface::CallbackReturn on_error(
 	  const rclcpp_lifecycle::State & previous_state) override;
+private:
+	rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imuSubscriber;
+
+	void imu_callback(sensor_msgs::msg::Imu::ConstSharedPtr msg) const;
 };
 }
 
