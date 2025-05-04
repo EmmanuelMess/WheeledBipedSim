@@ -42,6 +42,8 @@ controller_interface::CallbackReturn UprightController::on_configure(const rclcp
 		[this](sensor_msgs::msg::Imu::ConstSharedPtr msg) { this->imu_callback(msg); });
 
 	this->diffTwistPublisher = this->get_node()->create_publisher<geometry_msgs::msg::TwistStamped>("/cmd_vel", 10);
+	this->anglePublisher = this->get_node()->create_publisher<std_msgs::msg::Float64>("/debug/angle", 10);
+	this->pidPublisher = this->get_node()->create_publisher<std_msgs::msg::Float64MultiArray>("/debug/pid", 10);
 
 	return controller_interface::CallbackReturn::SUCCESS;
 }
@@ -89,47 +91,56 @@ void UprightController::imu_callback(sensor_msgs::msg::Imu::ConstSharedPtr msg) 
 		return;
 	}
 
-	tf2::Transform transform;
-	tf2::convert(t.transform, transform);
-
-	tf2::Vector3 imuAcceleration;
-	tf2::convert(msg->linear_acceleration, imuAcceleration);
-	const auto& position = transform(imuAcceleration).normalized();
+	tf2::Quaternion orientation;
+	tf2::convert(msg->orientation, orientation);
 
 	const double deltaTime = 1.0 / 400.0;
 	const double targetAngle = 0.0;
 
 	// Get the angle with the z direction,
-	const auto angle = std::atan2(position.x(), position.z());
+	const auto angle = orientation.y();
 
 	const auto error = angle - targetAngle;
 
 	this->errorSum = std::clamp(error * deltaTime + errorSum, -1.0, 1.0);
 
-	const auto p = -1.0 * error;
-	const auto i = 0.0 * errorSum;
-	const auto d = -0.5 * (angle - lastAngle);
+	const auto p = 31.0 * error;
+	const auto i = 22.0 * errorSum;
+	const auto d = 0.075 * (angle - lastAngle) / deltaTime;
 	const auto pid = p + i + d;
 
 	lastAngle = angle;
 
-	// TODO actually use the states
-	auto message = geometry_msgs::msg::TwistStamped();
-	message.header.stamp = this->get_node()->get_clock()->now();
-	message.header.frame_id = baselinkFrame;
-	message.twist.linear.x = pid;
-	message.twist.linear.y = 0.0;
-	message.twist.linear.z = 0.0;
-	message.twist.angular.x = 0.0;
-	message.twist.angular.y = 0.0;
-	message.twist.angular.z = 0.0;
+	{
+		// TODO actually use the states
+	    auto message = geometry_msgs::msg::TwistStamped();
+	    message.header.stamp = this->get_node()->get_clock()->now();
+	    message.header.frame_id = baselinkFrame;
+	    message.twist.linear.x = pid;
+	    message.twist.linear.y = 0.0;
+	    message.twist.linear.z = 0.0;
+	    message.twist.angular.x = 0.0;
+	    message.twist.angular.y = 0.0;
+	    message.twist.angular.z = 0.0;
 
-	this->diffTwistPublisher->publish(message);
-
+	    this->diffTwistPublisher->publish(message);
+	}
 	RCLCPP_INFO_STREAM(this->get_node()->get_logger(), "Angle: " << angle << " Error: " << error << " PID: " << pid << " P: " << p
 																 << " I: " << i << " D: " << d);
 
-    // TODO send the angle and PID data on a message
+    {
+    	auto message = std_msgs::msg::Float64();
+    	message.data = angle;
+
+    	this->anglePublisher->publish(message);
+    }
+
+    {
+    	auto message = std_msgs::msg::Float64MultiArray();
+    	message.data = { p, i, d };
+
+    	this->pidPublisher->publish(message);
+    }
 }
 
 }

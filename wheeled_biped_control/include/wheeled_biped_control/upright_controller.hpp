@@ -3,6 +3,9 @@
 
 #include <memory>
 
+#include <std_msgs/msg/float64.hpp>
+#include <std_msgs/msg/float64_multi_array.hpp>
+
 #include <sensor_msgs/msg/imu.hpp>
 
 #include <geometry_msgs/msg/twist_stamped.hpp>
@@ -55,6 +58,9 @@ private:
 	rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imuSubscriber;
 
 	rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr diffTwistPublisher;
+	rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr anglePublisher;
+	rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr pidPublisher;
+
 
 	void imu_callback(sensor_msgs::msg::Imu::ConstSharedPtr msg);
 };

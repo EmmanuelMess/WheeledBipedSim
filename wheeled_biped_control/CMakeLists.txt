@@ -11,6 +11,7 @@ find_package(hardware_interface  REQUIRED)
 find_package(pluginlib  REQUIRED)
 find_package(rclcpp  REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
@@ -30,6 +31,7 @@ ament_target_dependencies(upright_controller PUBLIC ament_cmake
     pluginlib
     rclcpp
     rclcpp_lifecycle
+    std_msgs
     geometry_msgs
     tf2
     tf2_geometry_msgs
@@ -67,6 +69,7 @@ ament_export_dependencies(ament_cmake
     pluginlib
     rclcpp
     rclcpp_lifecycle
+    std_msgs
     geometry_msgs
     tf2
     tf2_geometry_msgs
