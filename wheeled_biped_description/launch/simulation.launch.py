@@ -101,6 +101,13 @@ def generate_launch_description():
         output="both",
     )
 
+    upright_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["upright_controller"],
+        output="both",
+    )
+
     return LaunchDescription([
         ros_gz_bridge,
         SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', gz_model_path),
@@ -117,4 +124,5 @@ def generate_launch_description():
         robot_knees_controller_spawner,
         robot_wheels_controller_spawner,
         joint_state_broadcaster_spawner,
+        upright_controller_spawner,
     ])

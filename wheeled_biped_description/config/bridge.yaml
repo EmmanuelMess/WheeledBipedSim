@@ -9,7 +9,7 @@
   gz_type_name: "gz.msgs.Clock"
   lazy: true
   direction: GZ_TO_ROS
-- topic_name: "/imu"
+- topic_name: "/imu/head"
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "gz.msgs.IMU"
   lazy: true

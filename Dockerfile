@@ -9,6 +9,11 @@ RUN apt update && \
         ninja-build && \
     rm -rf /var/lib/apt/lists/*
 
+RUN apt update && \
+    apt install -y \
+        ros-$ROS_DISTRO-plotjuggler-ros && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY . /ros2_ws/src/WheeledBipedSim
 
 WORKDIR /ros2_ws

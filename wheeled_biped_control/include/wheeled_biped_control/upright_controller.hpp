@@ -1,7 +1,15 @@
 #ifndef UPRIGHT_CONTROLLER_HPP
 #define UPRIGHT_CONTROLLER_HPP
 
+#include <memory>
+
 #include <sensor_msgs/msg/imu.hpp>
+
+#include <geometry_msgs/msg/twist_stamped.hpp>
+
+#include <tf2/exceptions.hpp>
+#include <tf2_ros/transform_listener.h>
+#include <tf2_ros/buffer.h>
 
 #include "controller_interface/chainable_controller_interface.hpp"
 
@@ -38,9 +46,17 @@ public:
 	controller_interface::CallbackReturn on_error(
 	  const rclcpp_lifecycle::State & previous_state) override;
 private:
+	double lastAngle;
+	double errorSum;
+
+	std::shared_ptr<tf2_ros::TransformListener> tfListener;
+	std::shared_ptr<tf2_ros::Buffer> tfBuffer;
+
 	rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr imuSubscriber;
 
-	void imu_callback(sensor_msgs::msg::Imu::ConstSharedPtr msg) const;
+	rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr diffTwistPublisher;
+
+	void imu_callback(sensor_msgs::msg::Imu::ConstSharedPtr msg);
 };
 }
 

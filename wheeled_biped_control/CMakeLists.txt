@@ -11,11 +11,15 @@ find_package(hardware_interface  REQUIRED)
 find_package(pluginlib  REQUIRED)
 find_package(rclcpp  REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 add_library(upright_controller SHARED
     src/upright_controller.cpp
 )
-target_compile_features(upright_controller PUBLIC cxx_std_17)
+target_compile_features(upright_controller PUBLIC cxx_std_20)
 target_include_directories(upright_controller PUBLIC
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include/upright_controller>
@@ -25,7 +29,11 @@ ament_target_dependencies(upright_controller PUBLIC ament_cmake
     hardware_interface
     pluginlib
     rclcpp
-    rclcpp_lifecycle)
+    rclcpp_lifecycle
+    geometry_msgs
+    tf2
+    tf2_geometry_msgs
+    tf2_ros)
 pluginlib_export_plugin_description_file(controller_interface upright_controller.xml)
 
 if(BUILD_TESTING)
@@ -58,5 +66,9 @@ ament_export_dependencies(ament_cmake
     hardware_interface
     pluginlib
     rclcpp
-    rclcpp_lifecycle)
+    rclcpp_lifecycle
+    geometry_msgs
+    tf2
+    tf2_geometry_msgs
+    tf2_ros)
 ament_package()

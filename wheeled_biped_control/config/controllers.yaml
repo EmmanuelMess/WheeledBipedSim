@@ -6,6 +6,9 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
+    upright_controller:
+      type: upright_controller/UprightController
+
 hips_position_controller:
   ros__parameters:
     type: forward_command_controller/ForwardCommandController
