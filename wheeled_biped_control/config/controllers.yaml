@@ -1,13 +1,16 @@
 controller_manager:
   ros__parameters:
-    update_rate: 30
+    update_rate: 400
     use_sim_time: true
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-    upright_controller:
-      type: upright_controller/UprightController
+upright_controller:
+  ros__parameters:
+    type: upright_controller/UprightController
+
+    wheel_names: ["left_wheel_joint", "right_wheel_joint"]
 
 hips_position_controller:
   ros__parameters:
@@ -16,7 +19,6 @@ hips_position_controller:
       - upper_left_leg_joint
       - upper_right_leg_joint
     interface_name: position
-
 
 knees_position_controller:
   ros__parameters:

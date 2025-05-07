@@ -1,0 +1,9 @@
+upright_controller:
+  wheel_names: {
+    type: string_array,
+    default_value: [],
+    description: "Names of the wheels' joints",
+    validation: {
+      not_empty<>: []
+    }
+  }

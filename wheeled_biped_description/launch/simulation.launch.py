@@ -104,7 +104,10 @@ def generate_launch_description():
     upright_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["upright_controller"],
+        arguments=[
+            "upright_controller",
+            "--param-file", robot_controllers,
+        ],
         output="both",
     )
 
